@@ -99,26 +99,80 @@
 ## Задание 2: проектирование API
 Описание: интернет-магазин "Петрушка Зеленая" преуспевает, расширяется и в мобильном приложении решили создать новый экран, который будет отображать магазины партнеров (см. макеты ниже).
 
-### Стартовая строка 
+| Метод | Описание | URL | Тело запроса | Тело ответа | Статусы ответов | Идемпотентность |
+| --- | --- | --- | --- | --- | --- | --- |
+| GET | Получение списка компаний | api/v1/partners | - | см. пример ниже | 200 ОК   404 Not Found   403 Forbidden   401 Unauthorized | Да |
+
+### Стартовая строка запроса
 GET api/v1/partners HTTP/1.1  
-### Заголовки
-Authorization: {access_token}   
-Сontent-type: application/json   
-User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1  (пример)
-App-Version: 1.2.0
-### Тело запроса 
-```
+### Заголовки запроса  
+Authorization: _{access_token}_   
+Сontent-type: _application/json_   
+User-Agent: _Mozilla/5.0 (iPhone; CPU iPhone OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1  (пример)_   
+App-Version: _1.2.0 (пример)_   
+Cache-Control: 
+### Параметры запроса
+| Параметр | Значения |
+| offset | 1 |
+| limit | 20 |
 
+### Тело ответа (200 OK)
 ```
-### Тело ответа
+200 OK
+{
+   "companies": [
+      {'companyId": 12387,
+      "companyName": "METRO",
+      "companyLogo": "https://cdn.petrushka.ru/partners/metro.png",
+      "companyUrl": "https://metro-cc.ru/markets",
+      "fastDelivery": False, 
+      "nearestDeliveryStart": "2026-02-10T21:00:00Z",
+      "nearestDeliveryEnd": "2026-02-10T23:00:00Z"},
+      {'companyId": 15629,
+      "companyName": "Ашан",
+      "companyLogo": "https://cdn.petrushka.ru/partners/ashan.png",
+      "companyUrl": "https://www.auchan.ru",
+      "fastDelivery": False, 
+      "nearestDeliveryStart": "2026-02-10T18:00:00Z",
+      "nearestDeliveryEnd": "2026-02-10T20:00:00Z"},
+      {'companyId": 12387,
+      "companyName": "ВкусВилл",
+      "companyLogo": "https://cdn.petrushka.ru/partners/vkusvill.png",
+      "companyUrl": "https://vkusvill.ru",
+      "fastDelivery": True,
+      "fastDeliveryTimeMin": 20,
+      "fastDeliveryTimeMax": 60},
+      {'companyId": 12387,
+      "companyName": "ВИКТОРИЯ",
+      "companyLogo": "https://cdn.petrushka.ru/partners/victoria.png",
+      "companyUrl": "https://victoria-group.ru",
+      "fastDelivery": False,
+      "nearestDeliveryStart": "2026-02-10T17:00:00Z",
+      "nearestDeliveryEnd": "2026-02-10T19:00:00Z"}]
+}
 ```
-
+### Тело ответа (404 Not Found)
 ```
-
-Что нужно сделать:
-Написать пример REST API запроса, который будет вызываться при переходе пользователя на данный экран. 
-Привести пример ответа этого REST API в соответствии с макетом. Формат - JSON. Учесть, что при клике на плашку магазина должен осуществляться переход по ссылке на внешний ресурс. 
-
+404 Not Found
+{
+   "message": "Ресурс не найден"
+}
+```
+### Тело ответа (403 Forbidden)
+```
+403 Forbidden
+{
+   "message": "Недостаточно прав"
+}
+```
+### Тело ответа (401 Unauthorized)
+```
+401 Unauthorized
+{
+   "message": "Отстутсвует токен авторизации",
+   "userMessage": "Необходимо авторизоваться"
+}
+```
 
 ## Задание 3: архитектура
 
